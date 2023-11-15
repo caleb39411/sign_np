@@ -676,9 +676,9 @@ int main(int argc, char *argv[])
 		}
 			
 		// Get ISO size.
-		fseeko64(iso, 0, SEEK_END);
-		long long iso_size = ftello64(iso);
-		fseeko64(iso, 0, SEEK_SET);
+		fseeko(iso, 0, SEEK_END);
+		long long iso_size = ftello(iso);
+		fseeko(iso, 0, SEEK_SET);
 		
 		// Initialize KIRK.
 		printf("Initializing KIRK engine...\n\n");
@@ -911,9 +911,9 @@ int main(int argc, char *argv[])
 
 			// Read ISO block.
 			memset(iso_buf, 0, block_size);
-			if ((ftello64(iso) + block_size) > iso_size)
+			if ((ftello(iso) + block_size) > iso_size)
 			{
-				long long remaining = iso_size - ftello64(iso);
+				long long remaining = iso_size - ftello(iso);
 				fread(iso_buf, remaining, 1, iso);
 				wsize = remaining;
 			}
@@ -999,9 +999,9 @@ int main(int argc, char *argv[])
 		printf("\n\n");
 	
 		// Update NPUMDIMG header and NP table.
-		fseeko64(pbp, np_offset, SEEK_SET);
+		fseeko(pbp, np_offset, SEEK_SET);
 		fwrite(npumdimg, np_size, 1, pbp);
-		fseeko64(pbp, table_offset, SEEK_SET);
+		fseeko(pbp, table_offset, SEEK_SET);
 		fwrite(table_buf, table_size, 1, pbp);
 		
 		// Clean up.
